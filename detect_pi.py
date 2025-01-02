@@ -2,14 +2,15 @@ import cv2
 from ultralytics import YOLO
 
 # 加载模型
-model = YOLO("models/trash_1.pt", verbose=False) 
+model = YOLO(r"models\trashcan.pt", verbose=False) 
 
 # 定义发送到Arduino的函数
 def send_to_arduino(cls_id):
     print(f"Sending to Arduino: {cls_id}")
 
+video_path = "test.mp4"
 # 打开视频捕捉
-video_cap = cv2.VideoCapture(0)
+video_cap = cv2.VideoCapture(video_path)
 
 # 初始化变量
 last_cls_id = None
@@ -28,7 +29,7 @@ while video_cap.isOpened():
     frame = cv2.resize(frame, (320, 320))
 
     # 设置置信度
-    conf = 0.8
+    conf = 0.5
     # 进行YOLO预测
     results = model.predict(frame, conf=conf, verbose=False)
     
