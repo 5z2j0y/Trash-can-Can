@@ -5,12 +5,38 @@ from ultralytics import YOLO
 model = YOLO(r"models\trashcan.pt", verbose=False) 
 
 # 定义发送到Arduino的函数
-def send_to_arduino(cls_id):
-    print(f"Sending to Arduino: {cls_id}")
+def send_to_arduino(trash_type):
+    category_id = trash_category_ids.get(trash_type, 0)
+    print(f"发送: {category_id}")
+
+# 定义垃圾分类
+trash_categories = {
+    "可回收": ["bottle", "can", "paperCup"],
+    "厨余": ["carrot", "potato", "radish", "potato_chip"],
+    "有害": ["battery", "pill"],
+    "其他": ["stone", "china", "brick"]
+}
+
+# 定义垃圾分类编号
+trash_category_ids = {
+    "可回收": 1,
+    "厨余": 2,
+    "有害": 3,
+    "其他": 4
+}
+
+def classify_trash(label):
+    for category, items in trash_categories.items():
+        if label in items:
+            return category
+    return "未知"
 
 video_path = "test.mp4"
 # 打开视频捕捉
 video_cap = cv2.VideoCapture(video_path)
+
+# 是否显示检测结果
+show_results = True 
 
 # 初始化变量
 last_cls_id = None
@@ -29,19 +55,23 @@ while video_cap.isOpened():
     frame = cv2.resize(frame, (320, 320))
 
     # 设置置信度
-    conf = 0.5
+    conf = 0.7
     # 进行YOLO预测
     results = model.predict(frame, conf=conf, verbose=False)
     
     for result in results:
-        # 绘制结果
-        frame = result.plot()
+        # 只有在show_results为True时才绘制结果
+        if show_results:
+            frame = result.plot()
         # 取出结果的类别、置信度、坐标
         boxes = result.boxes
         for box in boxes:
             cls_id = int(box.cls.item())
             score = box.conf.item()
             label = model.names[cls_id]
+
+            # 分类垃圾
+            trash_type = classify_trash(label)
 
             # 检测相同的cls_id
             if cls_id == last_cls_id:
@@ -51,10 +81,13 @@ while video_cap.isOpened():
                 frame_count = 1
             # 如果连续帧数超过阈值, 发送到Arduino
             if frame_count >= threshold:
-                send_to_arduino(cls_id)
+                print(f" {label}, {trash_type}")
+                send_to_arduino(trash_type)
                 frame_count = 0  # 重置计数器
 
-    cv2.imshow('Detection', frame)
+    # 只有在show_results为True时才显示图像
+    if show_results:
+        cv2.imshow('Detection', frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
