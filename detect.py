@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 # 加载模型
-model = YOLO(r"models\yolo\examples\yolov11s.pt")  # 加载官方模型
+model = YOLO("models/trash_1.pt", verbose=False) 
 
 # 定义发送到Arduino的函数
 def send_to_arduino(cls_id):
@@ -24,7 +24,7 @@ while video_cap.isOpened():
     # 设置置信度
     conf = 0.8
     # 进行YOLO预测
-    results = model.predict(frame, conf=conf)
+    results = model.predict(frame, conf=conf, verbose=False)
     
     for result in results:
         # 绘制结果
