@@ -2,14 +2,14 @@ import cv2
 from ultralytics import YOLO
 
 # 加载模型
-model = YOLO("models/trash_320_1.pt", verbose=False) 
+model = YOLO("models/trashcan.pt", verbose=False) 
 
 # 定义发送到Arduino的函数
 def send_to_arduino(cls_id):
     print(f"Sending to Arduino: {cls_id}")
 
 # 打开视频捕捉
-video_cap = cv2.VideoCapture(0)
+video_cap = cv2.VideoCapture(1)
 
 # 初始化变量
 last_cls_id = None

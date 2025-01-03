@@ -10,7 +10,7 @@ def send_to_arduino(cls_id):
 
 video_path = "test.mp4"
 # 打开视频捕捉
-video_cap = cv2.VideoCapture(video_path)
+video_cap = cv2.VideoCapture(1)
 
 # 定义视频写入器
 output_path = "output.mp4"
@@ -60,7 +60,7 @@ while video_cap.isOpened():
                 frame_count = 0  # 重置计数器
 
     # 写入帧到输出视频
-    out.write(frame)
+    # out.write(frame)
 
     cv2.imshow('Detection', frame)
 
@@ -69,5 +69,5 @@ while video_cap.isOpened():
 
 # 释放资源
 video_cap.release()
-out.release()  # 释放视频写入器
+# out.release()  # 释放视频写入器
 cv2.destroyAllWindows()
