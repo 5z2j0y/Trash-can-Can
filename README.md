@@ -18,8 +18,7 @@ AI-powered garbage classification system utilizing computer vision technology, d
 
 ### Prerequisites
 
-- Python 3.7 or higher
-- CUDA-capable GPU (for PC version)
+- Eazy to run on CPU (for PC version)
 - Raspberry Pi 4 (for Pi version)
 - Arduino board (optional)
 
@@ -45,7 +44,7 @@ python detect_pc.py [--model models/trashcan.pt] [--source 0]
 
 #### Raspberry Pi Version
 ```bash
-python detect_pi.py [--model models/trash_320_1.pt] [--source 0]
+python detect_pi.py [--model models/trashcan.pt] [--source 0]
 ```
 
 #### Record Detection
@@ -60,9 +59,10 @@ python detect_record.py [--output output.mp4]
 ├── detect_pc.py      # PC detection script
 ├── detect_pi.py      # Raspberry Pi detection script
 ├── detect_record.py  # Video recording script
-├── models/          # Pre-trained models
-├── images/          # Test images
-└── datasets/        # Training datasets
+├── models/           # Pre-trained models
+├── images/           # Test images
+├── datasets/         # Training datasets
+└── process_data      # Utils to process custom data
 ```
 
 ## 🤖 Models
@@ -70,35 +70,29 @@ python detect_record.py [--output output.mp4]
 | Model Name | Size | Description | Best For |
 |------------|------|-------------|----------|
 | trashcan.pt | 320x320 | Includes vegetables | General use |
-| trash_1.pt | 640x640 | Without vegetables | High accuracy |
-| trash_320_1.pt | 320x320 | Without vegetables | Fast inference |
+| trashcan_640.pt | 640x640 | Without vegetables | High accuracy |
+
 
 ## 📊 Dataset
 
 Our dataset is organized as follows:
 
 ```
-datasets/trashcan/
+datasets/
 ├── train/
-│   ├── images/
-│   └── labels/
-└── valid/
-    ├── images/
-    └── labels/
+├── valid/
+└── mydata_kaggle.yaml
 ```
 
 Configuration files:
 - `mydata_kaggle.yaml`: Kaggle training configuration
-- `mydata_pc.yaml`: Local training configuration
 
 ## 🛠️ Development
 
-Want to contribute? Great! Please:
+Want to contribute? Great! I'm currently looking for contributors to help with the following:
+- Enhance robustness against various lighting conditions.
+- It's funny but serious to classify a broken China piece from a white radish bar.
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
 
 ## 📝 License
 
