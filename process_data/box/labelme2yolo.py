@@ -2,14 +2,13 @@ import json
 import os
 from pathlib import Path
 
-def convert_labelme_to_yolo(json_path):
-    # 类别映射
-    class_map = {
-        'graduated cylinder': 0,
-        'beaker': 1,
-        'volumetric flask': 2
-    }
-    
+def read_class_names(names_file):
+    """从names文件读取类别名称"""
+    with open(names_file, 'r', encoding='utf-8') as f:
+        classes = [line.strip() for line in f.readlines() if line.strip()]
+    return {class_name: idx for idx, class_name in enumerate(classes)}
+
+def convert_labelme_to_yolo(json_path, class_map):
     # 读取JSON文件
     with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -52,6 +51,11 @@ def main():
     # 指定JSON文件所在目录
     json_dir = Path(r"images\rect_not_seperated")
     
+    # 读取trash.names文件并创建类别映射
+    names_file = Path(r"E:/github_projects/Trash-can-Can/trash.names")
+    class_map = read_class_names(names_file)
+    print(f"类别映射: {class_map}")
+    
     # 创建yolo_labels目录
     yolo_dir = json_dir / 'yolo_labels'
     yolo_dir.mkdir(exist_ok=True)
@@ -60,7 +64,7 @@ def main():
     for json_path in json_dir.glob('*.json'):
         try:
             # 转换标注
-            yolo_annotations = convert_labelme_to_yolo(json_path)
+            yolo_annotations = convert_labelme_to_yolo(json_path, class_map)
             
             # 保存为同名txt文件
             txt_path = yolo_dir / (json_path.stem + '.txt')
