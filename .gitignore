@@ -4,6 +4,5 @@ images/
 temp.py
 playground/
 datasets/
-models/
-!models/trashcan.pt
-!models/trashcan_640.pt
+models/models.old
+bbox_distribution_analysis.png
