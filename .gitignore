@@ -3,7 +3,7 @@ output.mp4
 images/
 temp.py
 playground/
-models/
 datasets/
-!datasets/trashcan.pt
-!datasets/trashcan_640.pt
+models/
+!models/trashcan.pt
+!models/trashcan_640.pt
