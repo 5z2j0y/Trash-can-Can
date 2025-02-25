@@ -140,7 +140,7 @@ datasets/
 Configuration files:
 - `mydata_kaggle.yaml`: Kaggle training configuration
 
-![Dataset Visualization](assets/images/dataset_visualize.png)
+![Dataset Visualization](assets/dataset_visualize.png)
 
 ## 🛠️ Development
 
@@ -162,5 +162,3 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 ## 📧 Contact
 
 For questions and support, please open an issue or contact the maintainers.
-
-偷偷加了一句话，嘿嘿！
