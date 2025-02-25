@@ -26,7 +26,7 @@ def clear_unlabeled_images(directory, label_ext='json'):
 
 if __name__ == "__main__":
     # 指定要处理的目录路径
-    target_directory = r"images\test"
+    target_directory = r"datasets\former_trash_png\carrot"  # 请替换为实际的目录路径
 
     """
     ---------------------------------------------------
